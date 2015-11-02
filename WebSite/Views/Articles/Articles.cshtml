@@ -1,0 +1,56 @@
+﻿@model IEnumerable<WebSite.Models.DisplayArticleInListViewModel>
+@using Microsoft.AspNet.Identity
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Likes)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DisLikes)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Category)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Likes)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DisLikes)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Category)
+        </td>
+        <td>     
+            @if (Request.IsAuthenticated)
+            {
+                <p>
+                    @if (item.CanEdit)
+                    {
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                    }
+                    @Html.ActionLink("Details", "Details", new { id = item.Id })
+                </p>
+            }
+            else
+            {
+                <p>
+                    @Html.ActionLink("Details", "Details", new { id = item.Id })
+                </p>
+            }
+        </td>
+    </tr>
+}
+
+</table>

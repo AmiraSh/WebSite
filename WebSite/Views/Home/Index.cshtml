@@ -1,0 +1,14 @@
+﻿@model IEnumerable<WebSite.Models.DisplayArticleInListViewModel>
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Students' community</h1>
+    <p class="lead">Here you can share information.</p>
+    <p>@Html.ActionLink("Learn more", "About")</p>
+</div>
+
+<div class="row">
+    @Html.Partial("Articles", Model)
+</div>

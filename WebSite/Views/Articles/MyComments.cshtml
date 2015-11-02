@@ -1,0 +1,46 @@
+﻿@model IEnumerable<WebSite.Models.DisplayCommentViewModel>
+
+@{
+    ViewBag.Title = "MyComments";
+}
+
+<h2>My Comments</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Text)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Likes)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DisLikes)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CanDelete)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Text)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Likes)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DisLikes)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CanDelete)
+        </td>
+        <td>
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

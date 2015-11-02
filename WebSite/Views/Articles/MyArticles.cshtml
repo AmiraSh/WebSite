@@ -1,0 +1,13 @@
+﻿@model IEnumerable<WebSite.Models.DisplayArticleInListViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>My Articles</h2>
+
+@Html.ActionLink("Create new article", "Create")
+
+@Html.Partial("Articles", Model)
+
+@Html.ActionLink("Go to Profile", "Index", "Manage")
