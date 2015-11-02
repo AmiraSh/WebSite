@@ -112,30 +112,33 @@ namespace WebSite.Controllers
                 }
 
                 // add tags
-                RegexOptions options = RegexOptions.None;
-                Regex regex = new Regex(@"[ ]{2,}", options);
-                articleVM.Tags = regex.Replace(articleVM.Tags, @" ");
-                string[] tags = Regex.Split(articleVM.Tags, " ");
-                article.Tags = new List<Tag>();
-                foreach (string item in tags)
+                if (articleVM.Tags != null)
                 {
-                    Tag tag = db.Tags.FirstOrDefault(x => x.Name == item);
-                    if (tag != null)
+                    RegexOptions options = RegexOptions.None;
+                    Regex regex = new Regex(@"[ ]{2,}", options);
+                    articleVM.Tags = regex.Replace(articleVM.Tags, @" ");
+                    string[] tags = Regex.Split(articleVM.Tags, " ");
+                    article.Tags = new List<Tag>();
+                    foreach (string item in tags)
                     {
-                        if (!article.Tags.Contains(tag))
+                        Tag tag = db.Tags.FirstOrDefault(x => x.Name == item);
+                        if (tag != null)
                         {
-                            article.Tags.Add(tag);
-                            tag.Articles.Add(article);
+                            if (!article.Tags.Contains(tag))
+                            {
+                                article.Tags.Add(tag);
+                                tag.Articles.Add(article);
+                            }
                         }
-                    }
-                    else
-                    {
-                        Tag newTag = new Tag();
-                        newTag.Name = item;
-                        db.Tags.Add(newTag);
-                        article.Tags.Add(newTag);
-                        newTag.Articles = new List<Article>();
-                        newTag.Articles.Add(article);
+                        else
+                        {
+                            Tag newTag = new Tag();
+                            newTag.Name = item;
+                            db.Tags.Add(newTag);
+                            article.Tags.Add(newTag);
+                            newTag.Articles = new List<Article>();
+                            newTag.Articles.Add(article);
+                        }
                     }
                 }
 
