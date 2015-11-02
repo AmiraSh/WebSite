@@ -96,9 +96,10 @@ namespace WebSite.Controllers
                 db.Articles.Add(article);
                 var userId = User.Identity.GetUserId();
                 article.UserId = userId;
+                article.TimeCreated = DateTime.Now;
 
                 //add category
-                Category category = db.Categories.FirstOrDefault(x => x.Name == articleVM.CategoryName);
+                Category category = db.Categories.FirstOrDefault(x => x.Name == articleVM.CategoryName.ToString());
                 if (category != null)
                 {
                     article.Category = category;
@@ -182,9 +183,9 @@ namespace WebSite.Controllers
             {
                 Article article = db.Articles.Find(articleVM.Id);
                 // set new category
-                if (article.Category.Name != articleVM.CategoryName)
+                if (article.Category.Name != articleVM.CategoryName.ToString())
                 {
-                    Category category = db.Categories.FirstOrDefault(x => x.Name == articleVM.CategoryName);
+                    Category category = db.Categories.FirstOrDefault(x => x.Name == articleVM.CategoryName.ToString());
                     if (category != null)
                     {
                         article.Category = category;

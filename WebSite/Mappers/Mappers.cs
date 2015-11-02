@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using WebSite.DAL;
 using WebSite.DAL.Models;
 using WebSite.Models;
 
@@ -30,7 +31,9 @@ namespace WebSite.Mappers
             articleVM.Id = article.Id;
             articleVM.Name = article.Name;
             articleVM.Text = article.Text;
-            articleVM.CategoryName = article.Category.Name;
+            EnumCategory choice;
+            if (Enum.TryParse(article.Category.Name, out choice))
+                articleVM.CategoryName = choice;
             articleVM.Tags = tags;
             return articleVM;
         }
@@ -61,7 +64,7 @@ namespace WebSite.Mappers
             articleVM.Likes = article.Likes;
             articleVM.DisLikes = article.DisLikes;
             articleVM.Category = article.Category.Name;
-            articleVM.UserId = article.UserId;
+            articleVM.TimeCreated = article.TimeCreated;
             List<DisplayCommentViewModel> list = new List<DisplayCommentViewModel>();
             foreach (Comment item in article.Comments.ToList())
             {

@@ -12,7 +12,7 @@ namespace WebSite.DAL
     {
 
         public ApplicationContext()
-            : base("ArticleContext")
+            : base("ArticleDBContext")
         {
         }
 

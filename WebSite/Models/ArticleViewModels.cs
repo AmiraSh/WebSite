@@ -22,7 +22,7 @@ namespace WebSite.Models
         
         [Required(ErrorMessage = "Category is required.")]
         [Display(Name = "Category")]
-        public string CategoryName { get; set; }
+        public WebSite.DAL.EnumCategory CategoryName { get; set; }
                 
         [Display(Name = "Tags (separate with space)")]
         public string Tags { get; set; }
@@ -41,7 +41,8 @@ namespace WebSite.Models
         [Display(Name = "User name")]
         public string UserName { get; set; }
 
-        public string UserId { get; set; }
+        [Display(Name = "Time created")]
+        public DateTime TimeCreated { get; set; }
 
         [Display(Name = "Category")]
         public string Category { get; set; }

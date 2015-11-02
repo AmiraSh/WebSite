@@ -165,6 +165,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="DAL\ApplicationContext.cs" />
+    <Compile Include="DAL\Categories.cs" />
     <Compile Include="DAL\Models\Article.cs" />
     <Compile Include="DAL\Models\Category.cs" />
     <Compile Include="DAL\Models\Comment.cs" />

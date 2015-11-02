@@ -10,6 +10,7 @@ namespace WebSite.DAL.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Text { get; set; }
+        public DateTime TimeCreated { get; set; }
         public int Likes { get; set; }
         public int DisLikes { get; set; }
         public string UserId { get; set; }

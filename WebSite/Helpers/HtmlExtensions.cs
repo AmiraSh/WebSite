@@ -3,11 +3,39 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Web.Mvc;
+using System.Web.Mvc.Html;
+using System.Linq;
 
 namespace WebSite.Helpers
 {
     public static class HtmlExtensions
     {
+        public static MvcHtmlString CustomEnumDropDownListFor<TModel, TEnum>(
+          this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TEnum>> expression, object htmlAttributes)
+        {
+            var metadata = ModelMetadata.FromLambdaExpression(expression, htmlHelper.ViewData);
+            var values = Enum.GetValues(typeof(TEnum)).Cast<TEnum>();
+
+            var items =
+                values.Select(
+                   value =>
+                   new SelectListItem
+                   {
+                       Text = value.ToString(), //GetEnumDescription(value),
+                       Value = value.ToString(),
+                       Selected = value.Equals(metadata.Model)
+                   });
+            var attributes = HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes);
+            return htmlHelper.DropDownListFor(expression, items, attributes);
+        }
+
+        //public static string GetEnumDescription<TEnum>(TEnum value)
+        //{
+        //    var field = value.GetType().GetField(value.ToString());
+        //    var attributes = (DescriptionAttribute[])field.GetCustomAttributes(typeof(DescriptionAttribute), false);
+        //    return attributes.Length > 0 ? attributes[0].Description : value.ToString();
+        //}
+
         public static MvcHtmlString RequiredLabelFor<TModel, TValue>(this HtmlHelper<TModel> helper, 
             Expression<Func<TModel, TValue>> expression, string labelClass)
         {
@@ -29,64 +57,5 @@ namespace WebSite.Helpers
             label.InnerHtml = labelText;
             return MvcHtmlString.Create(label.ToString());
         }
-
-        //[SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", 
-        //    Justification = "This is an appropriate nesting of generic types")]
-        //public static MvcHtmlString LabelForRequired<TModel, TValue>(this HtmlHelper<TModel> html, 
-        //    Expression<Func<TModel, TValue>> expression, string labelText = "")
-        //{
-        //    return LabelHelper(html,
-        //        ModelMetadata.FromLambdaExpression(expression, html.ViewData),
-        //        ExpressionHelper.GetExpressionText(expression), labelText);
-        //}
-
-        //private static MvcHtmlString LabelHelper(HtmlHelper html,
-        //    ModelMetadata metadata, string htmlFieldName, string labelText)
-        //{
-        //    if (string.IsNullOrEmpty(labelText))
-        //    {
-        //        labelText = metadata.DisplayName ?? metadata.PropertyName ?? 
-        //            htmlFieldName.Split('.')[htmlFieldName.Split('.').Length - 1];
-        //    }
-
-        //    if (string.IsNullOrEmpty(labelText))
-        //    {
-        //        return MvcHtmlString.Empty;
-        //    }
-
-        //    bool isRequired = false;
-
-        //    if (metadata.ContainerType != null)
-        //    {
-        //        isRequired = metadata.ContainerType.GetProperty(metadata.PropertyName)
-        //                        .GetCustomAttributes(typeof(RequiredAttribute), false)
-        //                        .Length == 1;
-        //    }
-
-        //    TagBuilder tag = new TagBuilder("label");
-        //    tag.Attributes.Add(
-        //        "for",
-        //        TagBuilder.CreateSanitizedId(
-        //            html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(htmlFieldName)
-        //        )
-        //    );
-
-        //    if (isRequired)
-        //        tag.Attributes.Add("class", "label-required");
-
-        //    tag.SetInnerText(labelText);
-
-        //    var output = tag.ToString(TagRenderMode.Normal);
-
-
-        //    if (isRequired)
-        //    {
-        //        var asteriskTag = new TagBuilder("span");
-        //        asteriskTag.Attributes.Add("class", "required");
-        //        asteriskTag.SetInnerText("*");
-        //        output += asteriskTag.ToString(TagRenderMode.Normal);
-        //    }
-        //    return MvcHtmlString.Create(output);
-        //}
     }
 }
